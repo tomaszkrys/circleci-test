@@ -20,11 +20,12 @@ You just need to add this repo to CircleCI panel.
 overral overview of designe tasks:
 ```
 1. Build image/artifact pkg 
-1.a. checkout
+1.a. checkout code
+1.a. run composer
 1.b. build image
 1.c. push image
 2. Pre prod
-2.a. deploy on pre prod image/arifact pkg
+2.a. deploy on pre prod image/artifact pkg
 2.b. pre prod envs
 2.c. run on pre prod env
 2.d. pre prod DB/cache migration
