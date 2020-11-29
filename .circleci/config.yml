@@ -1,3 +1,4 @@
+
 version: 2.1
 
 jobs: 
@@ -34,10 +35,6 @@ jobs:
     
 
 
-#coveralls
-#tests
-#migration
-#warmup
 
 workflows:
   BuildEnviroment:
