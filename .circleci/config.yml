@@ -8,5 +8,9 @@ orbs:
 workflows:
   # Test of CircleCI
   welcome:
-    jobs:
+    jobs1:
       - welcome/run
+    job2:
+      - run: echo "hello world job2"
+    test:
+      - run: echo "hello world job_test"
