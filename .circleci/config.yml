@@ -54,7 +54,7 @@ jobs:
       
   preprod_tests:
     docker: # We could also use here docker in docker and docker compose for moe unification with dev local enviroment
-      - image: our-app:latest #image from build_image job
+      - image: paddycarey/go-echo:latest # this is just some sample image, here should be image from build_image job
       - image: nginx:latest # if needed for fpm
       - image: mongo:latest # or any other db/cache/service if needed for integrations test
         auth:
