@@ -5,17 +5,6 @@ orbs:
   welcome: circleci/welcome-orb@0.4.1
 
 
-# Orchestrate or schedule a set of jobs
-workflows:
-  # Test of CircleCI
-  welcome:
-    jobs:
-      - welcome/run
-      - build
-      - test
-  
-
-
 jobs: 
   build:
     docker:
@@ -27,4 +16,16 @@ jobs:
       - run: echo "hello world"
     test2:
       - run: echo "hello world"
+  
+
+
+
+workflows:
+  welcome:
+    jobs:
+      - welcome/run
+  custom:
+    jobs:
+      - build
+      - test
   
