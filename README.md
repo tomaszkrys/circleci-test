@@ -19,22 +19,22 @@ You just need to add this repo to CircleCI panel.
 
 overral overview of designe tasks:
 
-# Build image/artifact pkg 
-## checkout
-## build image
-## push image
+# 1. Build image/artifact pkg 
+## 1.a. checkout
+## 1.b.build image
+## 1.c.push image
 
-# Pre prod
-## deploy on pre prod image/arifact pkg
-## pre prod envs
-## run on pre prod env
-## pre prod DB/cache migration
-## pre prod cache clear
+# 2. Pre prod
+## 2.a. deploy on pre prod image/arifact pkg
+## 2.b. pre prod envs
+## 2.c. run on pre prod env
+## 2.d. pre prod DB/cache migration
+## 2.e. pre prod cache clear
 
-# TDD stuff:
-## unit tests
-## integration tests
-## functional test
+# 3. TDD stuff:
+## 3.a. unit tests
+## 3.b. integration tests
+## 3.c. functional test
 
 # coveralls
 # migration
