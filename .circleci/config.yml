@@ -9,14 +9,21 @@ jobs:
   build:
     docker:
       - image: php:latest
+    #working_directory: /mnt/ramdisk
     steps:
-      - run: echo "hello world1"
-      - run: echo "hello world2"
+      - run:
+        name: test1
+        command: echo "hello world1"
+      - run:
+        name: test2
+        command: echo "hello world2"
   test:
     docker:
       - image: php:latest
     steps:
-      - run: echo "hello world"
+      - run: 
+        name: test3
+        command: echo "hello world"
   
 
 
