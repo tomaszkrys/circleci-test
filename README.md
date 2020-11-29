@@ -19,8 +19,7 @@ You just need to add this repo to CircleCI panel.
 
 overral overview of designe tasks:
 
-#BUILD
-# Build image/artifact pkg
+# Build image/artifact pkg 
 ## checkout
 ## build image
 ## push image
@@ -37,11 +36,7 @@ overral overview of designe tasks:
 ## integration tests
 ## functional test
 
-
-
-
-# 
-#coveralls
-#migration
-#warmup
-#notification
+# coveralls
+# migration
+# warmup
+# notification
