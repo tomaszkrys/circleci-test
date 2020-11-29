@@ -12,19 +12,19 @@ jobs:
     #working_directory: /mnt/ramdisk
     steps:
       - run:
-        name: test1
-        command: echo "hello world1"
+          name: test1
+          command: echo "hello world1"
       - run:
-        name: test2
-        command: echo "hello world2"
+          name: test2
+          command: echo "hello world2"
   test:
     docker:
       - image: php:latest
     steps:
       - run: 
-        name: test3
-        command: echo "hello world"
-  
+          name: test3
+          command: echo "hello world"
+    
 
 
 
@@ -36,6 +36,6 @@ workflows:
     jobs:
       - build
       - test:
-        requires:
-          - build
+          requires:
+            - build
   
