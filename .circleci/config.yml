@@ -60,7 +60,6 @@ jobs:
         environment:
           - MONGO_INITDB_ROOT_USERNAME: test
           - MONGO_INITDB_ROOT_PASSWORD: test #to be moved to secrtes valut 
-
     steps:
       - run: 
           name: Setup all needed ENVs/secrets/artifacts 
@@ -97,7 +96,29 @@ jobs:
           name: Functional tests on prod enviroment
           command: echo
 
+  http_test1:
+    docker:
+      - image: curlimages/curl:latest
+    steps:
+      - run: 
+          name: Test1 - Simple curl test (to check parallel jobs)
+          command: echo "curl APP_ENV"
 
+  http_test2:
+    docker:
+      - image: curlimages/curl:latest
+    steps:
+      - run: 
+          name: Test2 - Simple curl test (to check parallel jobs)
+          command: echo "curl APP_ENV"
+
+  http_test3:
+    docker:
+      - image: curlimages/curl:latest
+    steps:
+      - run: 
+          name: Test3 - Simple curl test (to check parallel jobs)
+          command: echo "curl APP_ENV"
 workflows:
   BuildEnviroment:
     jobs:
@@ -109,11 +130,23 @@ workflows:
       - preprod_deploy:
           requires:
             - preprod_tests
+      
+      - http_test1:
+          requires:
+            - preprod_deploy
+
+      - http_test2:
+          requires:
+            - preprod_deploy
+
+      - http_test3:
+          requires:
+            - preprod_deploy
 
       - hold:
           type: approval
           requires:
-            - preprod_tests
+            - preprod_deploy
 
       - prod_deploy:
           requires:
