@@ -1,56 +1,123 @@
-
 version: 2.1
+
+
+orbs:
+  aws-eks: circleci/aws-eks@0.2.3
+  kubernetes: circleci/kubernetes@0.4.0
+
 
 jobs: 
 
-  build:
+  build_image:
     docker:
-      - image: php:latest
-    working_directory: /mnt/ramdisk
+      - image: docker:stable-git #image to use docker-in-docker
     steps:
+      - run:
+          name: Notification - Build started
+          command: echo
       - checkout
+      - setup_remote_docker
       - run:
-          name: Run index.php
-          command: php index.php
+          name: Install dependencies py-pip, docker-compose, awscli
+          command: echo 
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+            - /caches/app.tar
       - run:
-          name: Echo command
-          command: echo "hello world"
-
-  test:
-    docker:
-      - image: php:latest
-    working_directory: /mnt/ramdisk
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app.tar | true
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build --cache-from=app -t app .
+          # In Dockerfile:
+          # - use php:latest or php:<version>-fpm if fpm is needed
+          # - Run php composer to gether needed libs
+          # - Setup up resources and assets needed in image
+          # - Remove not needed files to reduce image size
+          # - use multistage build to reduce size
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/app.tar app
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Push image to ECR or any other docker repo.
+          command: echo "docker tag app; docker push"
+      
+  preprod_tests:
+    docker: # We could also use here docker in docker and docker compose for moe unification with dev local enviroment
+      - image: our-app:latest #image from build_image job
+      - image: nginx:latest # if needed for fpm
+      - image: mongo:latest # or any other db/cache/service if needed for integrations test
+        auth:
+          username: test
+          password: test # use some secret/env 
     steps:
       - run: 
-          name: Test command
-          command: echo "hello world"
-  test2:
+          name: Setup all needed ENVs/secrets/artifacts 
+          command: echo
+      - run: 
+          name: Fill up externall resources DB/cache with testing data and needed migrations
+          command: echo
+      - run: 
+          name: Run warmup
+          command: echo
+      - run: 
+          name: TDD, unit tests; integration tests; functional tests #This might be separated to external jobs to be able to run them as Fan-out job
+          command: echo 
+
+  preprod_deploy:
     docker:
-      - image: php:latest
-    working_directory: /mnt/ramdisk
+      - image: cimg/base:stable
     steps:
       - run: 
-          name: Test command
-          command: echo "hello world"
-    
+          name: Deploy to EKS preprod enviroment
+          command: echo
+      - run:
+          name: Functional tests on preprod enviroment
+          command: echo
 
+  prod_deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: 
+          name: Deploy to EKS preprod enviroment # we could use here some A/B tests or canary deploy
+          command: echo
+      - run:
+          name: Functional tests on prod enviroment
+          command: echo
 
 
 workflows:
   BuildEnviroment:
     jobs:
-      - build
-      - test:
+      - build_image
+      - preprod_tests:
           requires:
-            - build
+            - build_image
+
+      - preprod_deploy:
+          requires:
+            - preprod_tests
 
       - hold:
           type: approval
           requires:
-            - test
+            - preprod_tests
 
-      - test2:
+      - prod_deploy:
           requires:
             - hold
+            - preprod_tests
 
   
