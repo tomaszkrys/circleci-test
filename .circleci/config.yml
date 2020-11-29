@@ -7,14 +7,11 @@ orbs:
 
 jobs: 
   build:
-    docker:
-      - run: echo "hello world"
-    compose:
-      - run: echo "hello world"
+    steps:
+      - run: echo "hello world1"
+      - run: echo "hello world2"
   test:
-    test1:
-      - run: echo "hello world"
-    test2:
+    steps:
       - run: echo "hello world"
   
 
@@ -27,5 +24,7 @@ workflows:
   custom:
     jobs:
       - build
-      - test
+      - test:
+        requires:
+          - build
   
