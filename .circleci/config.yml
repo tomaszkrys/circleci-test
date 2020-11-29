@@ -119,6 +119,9 @@ jobs:
       - run: 
           name: Test3 - Simple curl test (to check parallel jobs)
           command: echo "curl APP_ENV"
+      - run:
+          name: Notification - Build done!
+          command: echo
 workflows:
   BuildEnviroment:
     jobs:
