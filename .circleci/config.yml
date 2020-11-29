@@ -57,9 +57,10 @@ jobs:
       - image: paddycarey/go-echo:latest # this is just some sample image, here should be image from build_image job
       - image: nginx:latest # if needed for fpm
       - image: mongo:latest # or any other db/cache/service if needed for integrations test
-        auth:
-          username: test
-          password: test # use some secret/env 
+        environment:
+          - MONGO_INITDB_ROOT_USERNAME: test
+          - MONGO_INITDB_ROOT_PASSWORD: test #to be moved to secrtes valut 
+
     steps:
       - run: 
           name: Setup all needed ENVs/secrets/artifacts 
