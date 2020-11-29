@@ -36,9 +36,9 @@ jobs:
           # In Dockerfile:
           # - use php:latest or php:<version>-fpm if fpm is needed
           # - Run php composer to gether needed libs
-          # - Setup up resources and assets needed in image
+          # - Setup resources and assets needed for image
           # - Remove not needed files to reduce image size
-          # - use multistage build to reduce size
+          # - use multistage build to ensure small size
       - run:
           name: Save Docker image layer cache
           command: |
@@ -147,10 +147,16 @@ workflows:
           type: approval
           requires:
             - preprod_deploy
+            - http_test1
+            - http_test2
+            - http_test3
 
       - prod_deploy:
           requires:
             - hold
-            - preprod_tests
+            - preprod_deploy
+            - http_test1
+            - http_test2
+            - http_test3
 
   
