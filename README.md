@@ -13,29 +13,4 @@ Repo created to test CircleCI, with template of CI/CD deploy pipline.
 
 ## Installation
 
-You just need to add this repo to CircleCI panel.
-
-## Concepts
-
-overral overview of designe tasks:
-```
-1. Build image/artifact pkg 
-1.a. checkout code
-1.a. run composer
-1.b. build image
-1.c. push image
-2. Pre prod
-2.a. deploy on pre prod image/artifact pkg
-2.b. pre prod envs
-2.c. run on pre prod env
-2.d. pre prod DB/cache migration
-2.e. pre prod cache clear
-3. TDD stuff:
-3.a. unit tests
-3.b. integration tests
-3.c. functional test
-coveralls
-migration
-warmup
-notification
-```
+You just need to add this repo from CircleCI panel.

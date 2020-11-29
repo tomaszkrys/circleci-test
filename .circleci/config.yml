@@ -146,7 +146,6 @@ workflows:
       - hold:
           type: approval
           requires:
-            - preprod_deploy
             - http_test1
             - http_test2
             - http_test3
@@ -154,9 +153,6 @@ workflows:
       - prod_deploy:
           requires:
             - hold
-            - preprod_deploy
-            - http_test1
-            - http_test2
-            - http_test3
+
 
   
