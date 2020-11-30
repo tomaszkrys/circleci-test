@@ -51,6 +51,14 @@ jobs:
       - run:
           name: Push image to ECR or any other docker repo.
           command: echo "docker tag app; docker push"
+      # TEST of circleci artifact
+      - store_artifacts:
+          path: index.php
+          destination: index-test
+      # TEST of circleci unittests
+      - store_test_results:
+          path: unit-test-results
+
       
   preprod_tests:
     docker: # We could also use here docker in docker and docker compose for moe unification with dev local enviroment
